@@ -190,7 +190,7 @@ class DataLoader:
             The parser instance
         """
         try:
-            with open(file_path, 'r', encoding='utf-8', errors="replace") as file: # RJA
+            with open(file_path, 'r', encoding='utf-8', errors='replace') as file:
                 lines = file.readlines()
         except UnicodeDecodeError as e:
             print(f"Error reading file {file_path}: UnicodeDecodeError. Skipping file.")
@@ -561,9 +561,12 @@ def load_tagged_datasets_classifier():
                     t.set_description("Loading ..." + file_path[-60:] if len(file_path) > 60 else file_path + " " * (60 - len(file_path)))
                     t.update()
 
-                    print(f"\n====\n{file}\n\======\n") # RJA
+                    # RJA
+                    file_parts = file.split()
+                    quality_part = file_parts[2]
+                    actions_part = file_parts[3]
+                    # RJA END
                     
-                    _, quality_part, actions_part, _ = file.split("-")
                     quality_value = int(quality_part.split("=")[-1])
                     actions_value = int(actions_part.split("=")[-1])
                     stats["total_actions"] += actions_value
