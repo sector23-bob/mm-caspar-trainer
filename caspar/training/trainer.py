@@ -128,10 +128,7 @@ class ModelTrainer:
                 verbose=1,
                 class_weight=class_weight
             )
-
-            print(f"\n========\nModel fit complete\n==========\n") # RJA
-
-            
+           
             # Evaluate the model - extract and log the F1 score specifically
             evaluation_results = self.model.model.evaluate(x_val, y_val, return_dict=True)
 
@@ -141,8 +138,7 @@ class ModelTrainer:
             # Log the model with its signature
             model_artifact_path = model_name if model_name else "model"
             model_uri = f"runs:/{run.info.run_id}/{model_artifact_path}"
-            print(f"\n========\n{model_uri}\n==========\n") # RJA
-            # mlflow.tensorflow.log_model(
+            # mlflow.tensorflow.log_model( # RJA
             #     self.model.model,
             #     model_uri,
             #     signature=self.model.get_mlflow_signature()

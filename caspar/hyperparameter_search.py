@@ -120,7 +120,7 @@ def objective(trial, x, y, x_val, y_val, epochs, batch_size=32, num_classes=-1):
     return best_val_loss
 
 
-def run_hyperparameter_optimization(x, y, x_val, y_val, n_trials, epochs,
+def run_hyperparameter_optimization(x, y, x_val, y_val, n_trials, epochs=100,
                                     batch_size=32, experiment_name=None, n_jobs=-1, num_classes=-1):
     """Run Optuna hyperparameter optimization study."""
     tf.keras.backend.clear_session()
@@ -154,7 +154,7 @@ def run_hyperparameter_optimization(x, y, x_val, y_val, n_trials, epochs,
     return study.best_params, study.best_value
 
 
-def optimize_architecture(args, x, y, x_val, y_val, n_jobs = -1, n_trials=100, num_classes=-1):
+def optimize_architecture(x, y, x_val, y_val, n_jobs = -1, n_trials=100, num_classes=-1, epochs=100, batch_size=64, experiment_name=''): # RJA
     """Run hyperparameter optimization to find the best architecture."""
     print("Starting hyperparameter optimization...")
 
@@ -165,9 +165,9 @@ def optimize_architecture(args, x, y, x_val, y_val, n_jobs = -1, n_trials=100, n
             x_val=x_val,
             y_val=y_val,
             n_trials=n_trials,
-            epochs=args.epochs,
-            batch_size=args.batch_size,
-            experiment_name=args.experiment_name,
+            epochs=epochs,
+            batch_size=batch_size,
+            experiment_name=experiment_name,
             n_jobs=n_jobs,
             num_classes=num_classes,
         )

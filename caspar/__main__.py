@@ -92,14 +92,16 @@ class CasparTrainer:
 
         return x_train, x_val, x_test, y_train, y_val, y_test, num_classes
 
-    def optimize_model(self, x_train, y_train, x_val, y_val, num_classes, n_jobs=-1, n_trials=20):
+    def optimize_model(self, x_train, y_train, x_val, y_val, num_classes, n_jobs=-1, n_trials=20): # RJA
         """Perform hyperparameter optimization"""
         hidden_layers, best_params = optimize_architecture(
-            None,  # args not needed when passing parameters directly
             x_train, y_train, x_val, y_val,
             n_jobs=n_jobs,
             n_trials=n_trials,
-            num_classes=num_classes
+            epochs=100,
+            batch_size=32,
+            num_classes=num_classes,
+            experiment_name=self.mlflow_config['experiment_name']
         )
 
         # Update configuration with optimized parameters
@@ -202,7 +204,7 @@ class CasparTrainer:
         print("Input shape:", input_shape, "Hidden layers:", self.model_config['hidden_layers'])
 
         # Optimize if requested
-        if args.optimize:
+        if args.optimize: # RJA
             self.optimize_model(
                 x_train, y_train, x_val, y_val,
                 num_classes,
