@@ -42,6 +42,13 @@ MODEL_CONFIG = {
     "learning_rate": 0.016544355731452045
 }
 
+# Current best settings, f1 ~ 0.868
+EXPERIMENTAL_CONFIG_01 = {
+    "hidden_layers": [518, 65, 130, 518, 518, 340, 130, 340],
+    "dropout_rate": 0.100278315,
+    "learning_rate": 0.029902618
+}
+
 # Training settings
 TRAINING_CONFIG = {
     "test_size": 0.1,
