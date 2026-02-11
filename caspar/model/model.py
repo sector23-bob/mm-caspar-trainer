@@ -199,7 +199,7 @@ class CasparClassificationModel(CasparModel):
                 threshold=0.8,
                 name='f1_score'
             )
-            metrics = ['accuracy', f1_score]
+            metrics = ['accuracy', f1_score, tf.keras.metrics.Precision(), tf.keras.metrics.Recall()]
 
         self.model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 

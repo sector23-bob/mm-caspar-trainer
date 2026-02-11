@@ -95,7 +95,7 @@ class ModelTrainer:
         # Default hyperparams if none provided
         if hyperparams is None:
             hyperparams = {}
-
+        
         # Start MlFlow run
         with mlflow.start_run(run_name=run_name, log_system_metrics=True) as run:
             # Log model parameters
@@ -129,6 +129,9 @@ class ModelTrainer:
                 class_weight=class_weight
             )
 
+            print(f"\n========\nModel fit complete\n==========\n") # RJA
+
+            
             # Evaluate the model - extract and log the F1 score specifically
             evaluation_results = self.model.model.evaluate(x_val, y_val, return_dict=True)
 
@@ -138,18 +141,19 @@ class ModelTrainer:
             # Log the model with its signature
             model_artifact_path = model_name if model_name else "model"
             model_uri = f"runs:/{run.info.run_id}/{model_artifact_path}"
-            mlflow.tensorflow.log_model(
-                self.model.model,
-                model_uri,
-                signature=self.model.get_mlflow_signature()
-            )
-            mlflow.register_model(model_uri, model_name)
+            print(f"\n========\n{model_uri}\n==========\n") # RJA
+            # mlflow.tensorflow.log_model(
+            #     self.model.model,
+            #     model_uri,
+            #     signature=self.model.get_mlflow_signature()
+            # )
+            # mlflow.register_model(model_uri, model_name)
             mlflow.tensorflow.save_model(self.model.model, model_dir)
 
             return history
 
     def mlflow_setup_log(self, batch_size, epochs, hyperparams):
-        mlflow.tensorflow.autolog()
+        # mlflow.tensorflow.autolog() # RJA
         mlflow.log_param("input_shape", self.model.input_shape)
         mlflow.log_param("hidden_layers", self.model.hidden_layers)
         mlflow.log_param("dropout_rate", self.model.dropout_rate)
@@ -194,12 +198,12 @@ class ClassificationModelTrainer(ModelTrainer):
             # Log the model with its signature
             model_artifact_path = model_name if model_name else "model"
             model_uri = f"runs:/{run.info.run_id}/{model_artifact_path}"
-            mlflow.tensorflow.log_model(
-                self.model.model,
-                model_uri,
-                signature=self.model.get_mlflow_signature()
-            )
-            mlflow.register_model(model_uri, model_name)
+            # mlflow.tensorflow.log_model(
+            #     self.model.model,
+            #     model_uri,
+            #     signature=self.model.get_mlflow_signature()
+            # )
+            # mlflow.register_model(model_uri, model_name)
             mlflow.tensorflow.save_model(self.model.model, model_dir)
 
     def train(self, x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray,
@@ -236,7 +240,7 @@ class ClassificationModelTrainer(ModelTrainer):
         """
         Set up and log parameters to MLflow.
         """
-        mlflow.tensorflow.autolog()
+        # mlflow.tensorflow.autolog() # RJA
         mlflow.log_param("input_shape", self.model.input_shape)
         mlflow.log_param("num_classes", self.model.num_classes)
         mlflow.log_param("hidden_layers", self.model.hidden_layers)
